@@ -87,6 +87,8 @@ Use a credential limited to one bucket. This AWS policy covers everything fileee
 }
 ```
 
+On Tigris, attach this policy to the access key if the connection check reports `AccessDenied`, as a bucket role alone may not be enough. **How to set up** shows it with your bucket filled in. In the [Tigris console](https://console.storage.dev), create it under **IAM Policies** with the JSON Editor, then add the key under **Manage IAM Policy > Linked Access Keys**.
+
 ## Without Docker
 
 You need Node 24 or newer, `corepack enable` to get the pinned pnpm, and Postgres 13 or newer. The database user must be able to create the `unaccent` extension, which any database owner can.
