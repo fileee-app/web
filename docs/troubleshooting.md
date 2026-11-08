@@ -40,8 +40,6 @@ The **Connection** check names the step that failed and what to fix.
 
 **"Couldn't reach the bucket."** Usually CORS. Open the storage's **Browser access (CORS)** check and use **Apply for me** or **How to set up**. The rule names `APP_URL`, so reapply it if the address changed.
 
-**Parts upload, then it fails at the end.** The CORS rule must expose the `ETag` header. The rule in **How to set up** includes it.
-
 **"The bucket refused the upload (HTTP 403)."** Check that the credential can write to the prefix, and that the server's clock is right, because signed URLs depend on it.
 
 **"Only N of M parts arrived."** Retry the upload. It continues with the parts already there.

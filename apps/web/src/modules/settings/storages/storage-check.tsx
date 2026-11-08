@@ -27,12 +27,6 @@ async function browserCorsTest(storageId: string) {
   }
 
   if (!res.ok) throw new Error(`The bucket answered HTTP ${res.status}.`);
-
-  if (!res.headers.get("etag")) {
-    throw new Error(
-      "Uploads reach the bucket, but ETag isn't in the rule's exposed headers. Add it.",
-    );
-  }
 }
 
 /** The guided check: a server-side round trip, then CORS from this browser. */
