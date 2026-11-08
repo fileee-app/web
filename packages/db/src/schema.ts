@@ -203,6 +203,8 @@ export const shareLinks = pgTable(
     fileId: text().references(() => files.id, { onDelete: "cascade" }),
     folderId: text().references(() => folders.id, { onDelete: "cascade" }),
     tokenHash: text().notNull().unique(),
+    /** So the owner can see the link again. Null on links made before this column existed. */
+    encryptedToken: text(),
     passwordHash: text(),
     expiresAt: time(),
     revokedAt: time(),

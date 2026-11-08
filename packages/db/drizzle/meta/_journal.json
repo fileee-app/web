@@ -15,6 +15,13 @@
       "when": 1794129420997,
       "tag": "0001_file_search",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794146797225,
+      "tag": "0002_gorgeous_puma",
+      "breakpoints": true
     }
   ]
 }
