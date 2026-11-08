@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { db, shareLinks } from "@fileee/db";
+import { encryptToken } from "@fileee/storage";
 import { ORPCError } from "@orpc/server";
 import * as z from "zod";
 import { hashToken } from "../../auth/session.ts";
@@ -8,7 +9,6 @@ import { authed, requireShareTarget } from "../../lib/orpc.ts";
 import { newPasswordHash } from "../../lib/shares.ts";
 import { SHARE_EXPIRY_HOURS, shareInput } from "../../schemas.ts";
 
-/** The only time the raw token exists: it's returned here and never stored. */
 export const create = authed
   .input(
     shareInput.extend({
@@ -33,6 +33,7 @@ export const create = authed
         fileId: targetFile?.id,
         folderId: targetFolder?.id,
         tokenHash: hashToken(token),
+        encryptedToken: await encryptToken(token),
         passwordHash: await newPasswordHash(input.password),
         expiresAt: hours === null ? null : new Date(Date.now() + hours * 3_600_000),
       })

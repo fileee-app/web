@@ -49,13 +49,18 @@ export function ShareBody({ item }: { item: BrowserItem }) {
   const queryClient = useQueryClient();
   // Trashing revokes links elsewhere, so always ask again when the dialog opens.
   const links = useQuery(orpc.share.list.queryOptions({ input: target, staleTime: 0 }));
-  const [url, setUrl] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const refresh = () => queryClient.invalidateQueries({ queryKey: orpc.share.key() });
+
+  // The list is newest first, so without a usable selection this is the latest link.
+  const shown =
+    links.data?.find((link) => link.id === selectedId && link.url) ??
+    links.data?.find((link) => link.url);
 
   const create = useMutation(
     orpc.share.create.mutationOptions({
       onSuccess: (link) => {
-        setUrl(link.url);
+        setSelectedId(link.id);
 
         return refresh();
       },
@@ -77,12 +82,8 @@ export function ShareBody({ item }: { item: BrowserItem }) {
 
   return (
     <div className="flex min-w-0 flex-col gap-6">
-      {url && (
-        <CopyField
-          url={url}
-          label="Your new link"
-          note="Copy it now. Only a hash is kept, so it can't be shown again."
-        />
+      {shown?.url && (
+        <CopyField url={shown.url} label={`Link created ${formatDate(shown.createdAt)}`} />
       )}
 
       <form
@@ -164,11 +165,23 @@ export function ShareBody({ item }: { item: BrowserItem }) {
                     <ItemDescription>
                       {link.downloadCount} download{link.downloadCount === 1 ? "" : "s"}
                       {!state && link.expiresAt && ` · expires ${formatDate(link.expiresAt)}`}
+                      {!state && !link.url && " · too old to show again"}
                     </ItemDescription>
                   </ItemContent>
 
                   {!state && (
                     <ItemActions>
+                      {link.url && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={link.id === shown?.id}
+                          onClick={() => setSelectedId(link.id)}
+                        >
+                          {link.id === shown?.id ? "Showing" : "Show"}
+                        </Button>
+                      )}
+
                       <Button
                         size="sm"
                         variant="outline"

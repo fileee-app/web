@@ -105,7 +105,7 @@ describe.skipIf(!endpoint)("share links against MinIO", () => {
     rootId = (await alice.folder.get({ storageId })).folder.id;
   });
 
-  test("only the token's hash is stored, and the list never returns it", async () => {
+  test("the token is stored hashed and encrypted, and only the list's url reveals it", async () => {
     const fileId = await upload(uniqueName());
     const { id, token, url } = await shareFile(fileId);
 
@@ -118,8 +118,9 @@ describe.skipIf(!endpoint)("share links against MinIO", () => {
 
     const [listed] = await alice.share.list({ fileId });
 
-    expect(listed).toMatchObject({ id, hasPassword: false, downloadCount: 0 });
+    expect(listed).toMatchObject({ id, url, hasPassword: false, downloadCount: 0 });
     expect(JSON.stringify(listed)).not.toContain(row!.tokenHash);
+    expect(JSON.stringify(listed)).not.toContain(row!.encryptedToken);
   });
 
   test("resolve works signed out and shows nothing about the storage", async () => {
@@ -230,7 +231,11 @@ describe.skipIf(!endpoint)("share links against MinIO", () => {
     await expect(visitor.share.resolve({ token })).rejects.toMatchObject(NOT_AVAILABLE);
     await expect(visitor.share.download({ token, fileId })).rejects.toMatchObject(NOT_AVAILABLE);
     expect(await (await fetch(url)).text()).toBe("still here");
-    expect((await alice.share.list({ fileId }))[0]!.revokedAt).toBeInstanceOf(Date);
+
+    const [listed] = await alice.share.list({ fileId });
+
+    expect(listed!.revokedAt).toBeInstanceOf(Date);
+    expect(listed!.url).toBeNull();
   });
 
   test("an expired link answers just like an unknown one", async () => {

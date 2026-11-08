@@ -36,6 +36,15 @@ export async function encryptCredentials(credentials: Credentials) {
   };
 }
 
+/** Share tokens get their own derived key, so a stored token can't be swapped for a credentials row. */
+const tokenOptions = () => ({
+  key: encryptionKey().toString("base64"),
+  info: "fileee/share-token:v1",
+});
+
+export const encryptToken = (token: string) => encrypt({ ...tokenOptions(), data: token });
+export const decryptToken = (encrypted: string) => decrypt({ ...tokenOptions(), data: encrypted });
+
 /** Rows saved before minicrypt were AES-256-GCM. They're rewritten the next time their storage is edited. */
 function decryptV1(encrypted: string): Credentials {
   const [iv, tag, data] = encrypted.split(".").map((part) => Buffer.from(part, "base64"));
