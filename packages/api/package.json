@@ -1,0 +1,28 @@
+{
+  "name": "@fileee/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/routers/_router.ts",
+    "./http": "./src/lib/http.ts",
+    "./schemas": "./src/schemas.ts",
+    "./bootstrap": "./src/bootstrap.ts",
+    "./background": "./src/lib/background.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "admin:reset-password": "node --env-file-if-exists=../../.env src/bin/reset-password.ts"
+  },
+  "dependencies": {
+    "@fileee/db": "workspace:*",
+    "@fileee/storage": "workspace:*",
+    "@orpc/server": "2.0.0-beta.48",
+    "drizzle-orm": "^0.45.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1161.0",
+    "vitest": "^5.1.0"
+  }
+}

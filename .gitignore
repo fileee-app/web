@@ -1,0 +1,10 @@
+node_modules
+dist
+.output
+.turbo
+.tanstack
+.env
+*.db
+*.db-*
+*.local
+.DS_Store

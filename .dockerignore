@@ -1,0 +1,11 @@
+**/node_modules
+**/.output
+**/.turbo
+**/.tanstack
+**/dist
+.git
+docs
+nginx
+.env*
+*.db
+*.db-*

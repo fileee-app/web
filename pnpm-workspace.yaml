@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+# esbuild's postinstall is only an optimisation; its platform binary comes from optionalDependencies.
+allowBuilds:
+  esbuild: false
+permissions:
+  "@tanstack/react-router":
+    skills: true
+  "@tanstack/react-start":
+    skills: true

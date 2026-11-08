@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "react", "jsx-a11y", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "ignorePatterns": [
+    "**/routeTree.gen.ts",
+    "**/drizzle/**",
+    ".claude/skills/shadcn/**",
+    ".claude/skills/migrate-radix-to-base/**"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-underscore-dangle": [
+      "warn",
+      {
+        "allow": ["_splat"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["packages/ui/src/components/**", "packages/ui/src/hooks/**"],
+      "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off",
+        "react/set-state-in-effect": "off",
+        "no-shadow": "off"
+      }
+    }
+  ]
+}
