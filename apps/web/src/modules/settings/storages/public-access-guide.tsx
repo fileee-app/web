@@ -1,10 +1,19 @@
 import { type Provider } from "@fileee/api/schemas";
 
+const PER_BUCKET = "Public access is usually set per bucket, so plan on a separate bucket.";
+
 const GUIDE: Record<Provider, string> = {
   s3: "CloudFront can serve just one prefix, using an origin path and a bucket policy limited to it, so a prefix should work.",
   r2: "A custom domain exposes the whole bucket, so you should need a separate bucket.",
   b2: "Making a bucket public exposes all of it, so you should need a separate bucket.",
-  wasabi: "Public access is usually set per bucket, so plan on a separate bucket.",
+  wasabi: PER_BUCKET,
+  tigris: PER_BUCKET,
+  spaces: PER_BUCKET,
+  hetzner: PER_BUCKET,
+  scaleway: PER_BUCKET,
+  linode: PER_BUCKET,
+  vultr: PER_BUCKET,
+  ovh: PER_BUCKET,
   minio:
     "A reverse proxy or an anonymous policy can be limited to one prefix, so a prefix should work.",
   other: "Use a separate bucket unless your CDN can be limited to one prefix.",

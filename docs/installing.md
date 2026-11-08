@@ -38,14 +38,21 @@ The setup page creates the admin account, with a password of at least 12 charact
 
 In **Settings > Storages**, add a storage and pick your provider. The form fills in what it can:
 
-| Provider      | Endpoint                                     | Region      |
-| ------------- | -------------------------------------------- | ----------- |
-| AWS S3        | none                                         | your region |
-| Cloudflare R2 | `https://<account>.r2.cloudflarestorage.com` | `auto`      |
-| Backblaze B2  | `https://s3.<region>.backblazeb2.com`        | your region |
-| Wasabi        | `https://s3.<region>.wasabisys.com`          | your region |
-| MinIO         | your server's URL                            | `us-east-1` |
-| S3-compatible | your provider's URL                          | as required |
+| Provider            | Endpoint                                     | Region      |
+| ------------------- | -------------------------------------------- | ----------- |
+| AWS S3              | none                                         | your region |
+| Cloudflare R2       | `https://<account>.r2.cloudflarestorage.com` | `auto`      |
+| Backblaze B2        | `https://s3.<region>.backblazeb2.com`        | your region |
+| Wasabi              | `https://s3.<region>.wasabisys.com`          | your region |
+| Tigris              | `https://t3.storage.dev`                     | `auto`      |
+| DigitalOcean Spaces | `https://<region>.digitaloceanspaces.com`    | your region |
+| Hetzner             | `https://<region>.your-objectstorage.com`    | your region |
+| Scaleway            | `https://s3.<region>.scw.cloud`              | your region |
+| Akamai (Linode)     | `https://<region>.linodeobjects.com`         | your region |
+| Vultr               | `https://<region>.vultrobjects.com`          | your region |
+| OVHcloud            | `https://s3.<region>.io.cloud.ovh.net`       | your region |
+| MinIO               | your server's URL                            | `us-east-1` |
+| S3-compatible       | your provider's URL                          | as required |
 
 Then run the two checks the storage page offers:
 
