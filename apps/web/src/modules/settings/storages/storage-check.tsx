@@ -51,7 +51,7 @@ export function StorageCheck({ storageId }: { storageId: string }) {
     }),
   );
 
-  const rule = useMutation(orpc.storage.corsInfo.mutationOptions());
+  const guide = useMutation(orpc.storage.corsInfo.mutationOptions());
 
   return (
     <div className="flex flex-col gap-6">
@@ -121,10 +121,10 @@ export function StorageCheck({ storageId }: { storageId: string }) {
             <Button
               size="sm"
               variant="outline"
-              disabled={rule.isPending}
-              onClick={() => rule.mutate({ storageId })}
+              disabled={guide.isPending}
+              onClick={() => guide.mutate({ storageId })}
             >
-              Show rule
+              How to set up
             </Button>
 
             <Button
@@ -149,28 +149,51 @@ export function StorageCheck({ storageId }: { storageId: string }) {
           </div>
         </div>
 
-        {rule.data && (
-          <div className="relative">
-            <Textarea
-              readOnly
-              rows={10}
-              aria-label="CORS rule"
-              className="font-mono text-xs"
-              value={JSON.stringify([rule.data.rule], null, 2)}
-            />
+        {guide.data && (
+          <div className="flex flex-col gap-4">
+            {[
+              {
+                label: "IAM policy",
+                text: "Limit the access key to this bucket. Some providers, such as Tigris, need this IAM policy attached to the key. The CORS actions are only needed for Apply for me, and a separate public bucket needs the same access.",
+                value: JSON.stringify(guide.data.policy, null, 2),
+              },
+              {
+                label: "CORS rule",
+                text: "Add this rule to the bucket so this site can reach it, or use Apply for me.",
+                value: JSON.stringify([guide.data.rule], null, 2),
+              },
+            ].map(({ label, text, value }) => (
+              <div key={label} className="flex flex-col gap-2">
+                <div>
+                  <h4 className="text-sm font-medium">{label}</h4>
 
-            <Button
-              size="icon-sm"
-              variant="ghost"
-              aria-label="Copy CORS rule"
-              className="absolute top-2 right-2"
-              onClick={() => {
-                void navigator.clipboard.writeText(JSON.stringify([rule.data.rule], null, 2));
-                toast.success("Copied.");
-              }}
-            >
-              <ClipboardIcon />
-            </Button>
+                  <p className="text-sm text-muted-foreground">{text}</p>
+                </div>
+
+                <div className="relative">
+                  <Textarea
+                    readOnly
+                    rows={10}
+                    aria-label={label}
+                    className="font-mono text-xs"
+                    value={value}
+                  />
+
+                  <Button
+                    size="icon-sm"
+                    variant="ghost"
+                    aria-label={`Copy ${label}`}
+                    className="absolute top-2 right-2"
+                    onClick={() => {
+                      void navigator.clipboard.writeText(value);
+                      toast.success("Copied.");
+                    }}
+                  >
+                    <ClipboardIcon />
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

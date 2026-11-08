@@ -57,7 +57,7 @@ In **Settings > Storages**, add a storage and pick your provider. The form fills
 Then run the two checks the storage page offers:
 
 1. **Connection** writes, reads and deletes a small test object, and says what to fix if a step fails.
-2. **Browser access (CORS)** tests that this browser can reach the bucket directly, which uploads and previews need. **Apply for me** adds the rule if the credential allows it, and **Show rule** gives you the rule to add by hand.
+2. **Browser access (CORS)** tests that this browser can reach the bucket directly, which uploads and previews need. **Apply for me** adds the rule if the credential allows it, and **How to set up** gives you the rule to add by hand and an IAM policy for your bucket.
 
 An endpoint on a private address (such as MinIO on your LAN) is refused unless you add `ALLOW_PRIVATE_ENDPOINTS: "true"` to `environment` in `docker-compose.yml`. Endpoints must also use HTTPS without it.
 
@@ -86,6 +86,8 @@ Use a credential limited to one bucket. This AWS policy covers everything fileee
   ]
 }
 ```
+
+On Tigris, attach this policy to the access key if the connection check reports `AccessDenied`, as a bucket role alone may not be enough. **How to set up** shows it with your bucket filled in. In the [Tigris console](https://console.storage.dev), create it under **IAM Policies** with the JSON Editor, then add the key under **Manage IAM Policy > Linked Access Keys**.
 
 ## Without Docker
 

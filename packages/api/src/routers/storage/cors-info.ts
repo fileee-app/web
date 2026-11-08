@@ -1,4 +1,4 @@
-import { corsProbeUrl, corsRule } from "@fileee/storage";
+import { bucketPolicy, corsProbeUrl, corsRule } from "@fileee/storage";
 import * as z from "zod";
 import { appOrigin } from "../../lib/http.ts";
 import { authed, requireStorage } from "../../lib/orpc.ts";
@@ -12,6 +12,7 @@ export const corsInfo = authed
 
     return {
       rule: corsRule(appOrigin()),
+      policy: bucketPolicy(config.bucket),
       probeUrl: await corsProbeUrl(client, config.bucket, config.prefix),
     };
   });
