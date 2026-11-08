@@ -57,7 +57,7 @@ In **Settings > Storages**, add a storage and pick your provider. The form fills
 Then run the two checks the storage page offers:
 
 1. **Connection** writes, reads and deletes a small test object, and says what to fix if a step fails.
-2. **Browser access (CORS)** tests that this browser can reach the bucket directly, which uploads and previews need. **Apply for me** adds the rule if the credential allows it, and **Show rule** gives you the rule to add by hand.
+2. **Browser access (CORS)** tests that this browser can reach the bucket directly, which uploads and previews need. **Apply for me** adds the rule if the credential allows it, and **How to set up** gives you the rule to add by hand and an IAM policy for your bucket.
 
 An endpoint on a private address (such as MinIO on your LAN) is refused unless you add `ALLOW_PRIVATE_ENDPOINTS: "true"` to `environment` in `docker-compose.yml`. Endpoints must also use HTTPS without it.
 

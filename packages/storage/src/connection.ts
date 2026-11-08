@@ -159,6 +159,29 @@ export const corsRule = (appOrigin: string) => ({
   MaxAgeSeconds: 3600,
 });
 
+/** Everything fileee does in a bucket. The two CORS actions are only for applying the rule. */
+export const bucketPolicy = (bucket: string) => ({
+  Version: "2012-10-17",
+  Statement: [
+    {
+      Effect: "Allow",
+      Action: ["s3:ListBucket", "s3:GetBucketCORS", "s3:PutBucketCORS"],
+      Resource: `arn:aws:s3:::${bucket}`,
+    },
+    {
+      Effect: "Allow",
+      Action: [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts",
+      ],
+      Resource: `arn:aws:s3:::${bucket}/*`,
+    },
+  ],
+});
+
 /** Adds our rule to the bucket's existing rules rather than replacing them. */
 export async function applyCors(client: S3Client, Bucket: string, appOrigin: string) {
   const existing = await client
