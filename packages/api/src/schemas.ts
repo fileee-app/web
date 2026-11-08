@@ -21,6 +21,48 @@ export const PROVIDERS = {
     region: "",
     forcePathStyle: false,
   },
+  tigris: {
+    label: "Tigris",
+    endpoint: "https://t3.storage.dev",
+    region: "auto",
+    forcePathStyle: false,
+  },
+  spaces: {
+    label: "DigitalOcean Spaces",
+    endpoint: "https://<region>.digitaloceanspaces.com",
+    region: "",
+    forcePathStyle: false,
+  },
+  hetzner: {
+    label: "Hetzner",
+    endpoint: "https://<region>.your-objectstorage.com",
+    region: "",
+    forcePathStyle: false,
+  },
+  scaleway: {
+    label: "Scaleway",
+    endpoint: "https://s3.<region>.scw.cloud",
+    region: "",
+    forcePathStyle: false,
+  },
+  linode: {
+    label: "Akamai (Linode)",
+    endpoint: "https://<region>.linodeobjects.com",
+    region: "",
+    forcePathStyle: false,
+  },
+  vultr: {
+    label: "Vultr",
+    endpoint: "https://<region>.vultrobjects.com",
+    region: "",
+    forcePathStyle: false,
+  },
+  ovh: {
+    label: "OVHcloud",
+    endpoint: "https://s3.<region>.io.cloud.ovh.net",
+    region: "",
+    forcePathStyle: false,
+  },
   minio: {
     label: "MinIO",
     endpoint: "http://localhost:9000",
