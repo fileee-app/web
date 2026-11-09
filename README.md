@@ -35,10 +35,16 @@ Visit `APP_URL`, complete the setup page, and connect a bucket in settings. On a
 
 ## Documentation
 
+- [Introduction](apps/docs/src/content/docs/introduction.md): what Fileee is and who it suits
 - [Installing](apps/docs/src/content/docs/installing.md): Docker or from source, first-run setup, connecting a bucket
+- [Storage providers](apps/docs/src/content/docs/providers/index.md): bucket, credential and CORS setup for each provider
+- [Using Fileee](apps/docs/src/content/docs/using.md): uploads, previews, search, shortcuts and trash
+- [Sharing](apps/docs/src/content/docs/sharing.md): private links and public CDN links
+- [Administering](apps/docs/src/content/docs/administering.md): users, instance settings and storages
 - [Deploying](apps/docs/src/content/docs/deploying.md): configuration, HTTPS, upgrades, backups, recovery, public CDN links
 - [How it works](apps/docs/src/content/docs/how-it-works.md): where data lives, uploads, sync, trash, sharing, background jobs
 - [Security](apps/docs/src/content/docs/security.md): what's protected, what isn't, and a pre-launch checklist
 - [Troubleshooting](apps/docs/src/content/docs/troubleshooting.md): common errors and their fixes
 - [Developing](apps/docs/src/content/docs/developing.md): local setup, tests, migrations
+- [Changelog](apps/docs/src/content/docs/changelog.md): notable changes
 - [AGENTS.md](AGENTS.md): architecture and code conventions

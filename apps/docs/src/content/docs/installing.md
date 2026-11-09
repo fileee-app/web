@@ -38,7 +38,7 @@ The setup page creates the admin account, with a password of at least 12 charact
 
 ## Connect a bucket
 
-In **Settings > Storages**, add a storage and pick your provider. The form fills in what it can:
+In **Settings > Storages**, add a storage and pick your provider. [Storage providers](/providers/) has step-by-step guides. The form fills in what it can:
 
 | Provider            | Endpoint                                     | Region      |
 | ------------------- | -------------------------------------------- | ----------- |
@@ -89,7 +89,7 @@ Use a credential limited to one bucket. This AWS policy covers everything Fileee
 }
 ```
 
-On Tigris, attach this policy to the access key if the connection check reports `AccessDenied`, as a bucket role alone may not be enough. **How to set up** shows it with your bucket filled in. In the [Tigris console](https://console.storage.dev), create it under **IAM Policies** with the JSON Editor, then add the key under **Manage IAM Policy > Linked Access Keys**.
+On Tigris, a role on the access key is enough, and [an IAM policy is optional](/providers/tigris/#optional-use-an-iam-policy).
 
 ## Without Docker
 
