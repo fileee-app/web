@@ -1,4 +1,6 @@
-# Troubleshooting
+---
+title: Troubleshooting
+---
 
 Start with the logs: `docker compose logs fileee`. Expected failures such as a wrong password aren't logged, so anything there is worth reading.
 
@@ -17,7 +19,7 @@ Start with the logs: `docker compose logs fileee`. Expected failures such as a w
 
 **"Too many attempts. Try again in 15 minutes."** The limit is stored in the database, so restarting doesn't clear it, and neither does `admin:reset-password`. Wait it out. If it happens to many people at once behind a proxy, `TRUST_PROXY` is probably off, so they all share the proxy's IP.
 
-**Locked out of the admin account.** See [Recover access](deploying.md#recover-access).
+**Locked out of the admin account.** See [Recover access](/deploying/#recover-access).
 
 **The setup page asks for a token you don't have.** It's the `SETUP_TOKEN` in your environment.
 
@@ -27,14 +29,14 @@ Start with the logs: `docker compose logs fileee`. Expected failures such as a w
 
 The **Connection** check names the step that failed and what to fix.
 
-**"The URL must use HTTPS" or "Private addresses are not allowed."** Use a public HTTPS endpoint. For your own storage on a private network, see [Connect a bucket](installing.md#connect-a-bucket).
+**"The URL must use HTTPS" or "Private addresses are not allowed."** Use a public HTTPS endpoint. For your own storage on a private network, see [Connect a bucket](/installing/#connect-a-bucket).
 
 **The connection test passes but the browser can't reach the bucket.** Both your server and your browser need to reach the same endpoint, because signed URLs use it directly.
 
 - Under Docker, `localhost` means the container, not your machine. A container name like `minio:9000` works for the server but not the browser. Use an address both can resolve.
 - A browser blocks an `https` app from calling a plain `http` endpoint.
 
-**"The public location must be empty."** Everything there becomes public, so fileee refuses a location that already holds files. Pick an empty prefix or bucket.
+**"The public location must be empty."** Everything there becomes public, so Fileee refuses a location that already holds files. Pick an empty prefix or bucket.
 
 ## Uploads
 
@@ -48,7 +50,7 @@ The **Connection** check names the step that failed and what to fix.
 
 ## Files
 
-**A file shows as missing.** Its object is gone from the key fileee knows, usually because it was moved, renamed or deleted outside fileee. If the object returns to that key, the next sync restores the file.
+**A file shows as missing.** Its object is gone from the key Fileee knows, usually because it was moved, renamed or deleted outside Fileee. If the object returns to that key, the next sync restores the file.
 
 **New files in the bucket don't appear.** Sync runs daily, so use **Sync now**. An object modified after a sync started waits for the next one.
 
@@ -58,7 +60,7 @@ The **Connection** check names the step that failed and what to fix.
 
 **Video won't seek, or large PDFs load slowly.** The provider needs to support range requests. The connection test checks this at its `ranged get` step.
 
-**Files or folders are in a "Recovered" folder.** Sync found objects in fileee's own layout with no database row, as happens after a database loss.
+**Files or folders are in a "Recovered" folder.** Sync found objects in Fileee's own layout with no database row, as happens after a database loss.
 
 ## Sharing
 

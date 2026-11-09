@@ -3,6 +3,7 @@ dist
 .output
 .turbo
 .tanstack
+.astro
 .env
 *.db
 *.db-*

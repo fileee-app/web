@@ -1,11 +1,13 @@
-# How it works
+---
+title: How it works
+---
 
-fileee is an index and a set of permissions over buckets you already own. The server decides who may do what and signs short-lived URLs. File bytes go straight between the browser and the bucket.
+Fileee is an index and a set of permissions over buckets you already own. The server decides who may do what and signs short-lived URLs. File bytes go straight between the browser and the bucket.
 
 ```mermaid
 flowchart LR
   B[Browser]
-  F[fileee server]
+  F[Fileee server]
   D[(Postgres)]
   S[(Your bucket)]
   C[CDN, optional]
@@ -37,7 +39,7 @@ Folders exist only in the database, so the bucket's layout won't match what you 
 
 - An uploaded file is stored at `<prefix>/<fileId>/<original name>`. That key never changes, and downloads use the file's current name.
 - A file found by sync keeps the key it already had.
-- fileee's own objects sit under `<prefix>/.fileee/`: thumbnails, connection probes and, by default, public copies.
+- Fileee's own objects sit under `<prefix>/.fileee/`: thumbnails, connection probes and, by default, public copies.
 
 ## Uploads
 
@@ -75,9 +77,9 @@ Sync makes the index match the bucket. It runs when a storage is connected, on *
 
 Sync never changes or deletes your files, and it never overwrites renames, moves, stars or trash state. Files are only marked `missing` after a complete listing, so an expired credential can't empty your library. It also skips `.fileee/` and the public location.
 
-Files are matched by key, so renaming an object outside fileee shows up as one `missing` file and one new file.
+Files are matched by key, so renaming an object outside Fileee shows up as one `missing` file and one new file.
 
-After a database loss, objects in fileee's own `<fileId>/<name>` layout come back in a folder called **Recovered**.
+After a database loss, objects in Fileee's own `<fileId>/<name>` layout come back in a folder called **Recovered**.
 
 ## Trash and deletion
 
@@ -85,7 +87,7 @@ Trash is a flag: nothing leaves the bucket, and items stay until someone restore
 
 Trashing revokes the item's share links and removes its public copy. Restoring brings the item back but not those.
 
-Purging marks the rows and hands them to a background job, which deletes the object first and the row second, so a failure just retries. Removing a storage or user is different: fileee forgets the connection and index but leaves your files in the bucket. Only its public copies are deleted.
+Purging marks the rows and hands them to a background job, which deletes the object first and the row second, so a failure just retries. Removing a storage or user is different: Fileee forgets the connection and index but leaves your files in the bucket. Only its public copies are deleted.
 
 ## Sharing
 
@@ -119,4 +121,4 @@ This is why an instance can't have replicas: timers and job workers run inside t
 
 The first account is the admin, who creates other accounts in **Settings > Users**. Each user connects their own storages and sees only those. An admin manages accounts but can't open another user's files.
 
-See [Security](security.md) for how this is enforced.
+See [Security](/security/) for how this is enforced.

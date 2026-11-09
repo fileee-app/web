@@ -1,6 +1,8 @@
-# Installing
+---
+title: Installing
+---
 
-This gets an instance running. To put it on a public address, follow [Deploying](deploying.md) too.
+This gets an instance running. To put it on a public address, follow [Deploying](/deploying/) too.
 
 ## With Docker
 
@@ -61,7 +63,7 @@ Then run the two checks the storage page offers:
 
 An endpoint on a private address (such as MinIO on your LAN) is refused unless you add `ALLOW_PRIVATE_ENDPOINTS: "true"` to `environment` in `docker-compose.yml`. Endpoints must also use HTTPS without it.
 
-Use a credential limited to one bucket. This AWS policy covers everything fileee does; the two CORS actions are only needed for **Apply for me**. Other providers have equivalent settings.
+Use a credential limited to one bucket. This AWS policy covers everything Fileee does; the two CORS actions are only needed for **Apply for me**. Other providers have equivalent settings.
 
 ```json
 {

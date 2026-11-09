@@ -1,8 +1,10 @@
-# Deploying
+---
+title: Deploying
+---
 
-Start with [Installing](installing.md). This page covers what a public instance needs and how to run it over time.
+Start with [Installing](/installing/). This page covers what a public instance needs and how to run it over time.
 
-Run exactly one instance. fileee runs background jobs in-process, so replicas aren't supported. The server only handles metadata (browsers upload and download directly from the bucket), so it needs little CPU or bandwidth, and a proxy needs no body-size changes for uploads.
+Run exactly one instance. Fileee runs background jobs in-process, so replicas aren't supported. The server only handles metadata (browsers upload and download directly from the bucket), so it needs little CPU or bandwidth, and a proxy needs no body-size changes for uploads.
 
 ## Configuration
 
@@ -44,7 +46,7 @@ files.example.com {
 }
 ```
 
-For nginx, [nginx/fileee.conf](../nginx/fileee.conf) is a ready example. Get a certificate first, because nginx won't load a site whose certificate is missing. Then copy the file, change `files.example.com` to your domain in the copy, and enable it:
+For nginx, [nginx/fileee.conf](https://github.com/fileee-app/web/blob/main/nginx/fileee.conf) is a ready example. Get a certificate first, because nginx won't load a site whose certificate is missing. Then copy the file, change `files.example.com` to your domain in the copy, and enable it:
 
 ```bash
 sudo certbot certonly --nginx -d files.example.com
@@ -53,7 +55,7 @@ sudo ln -s /etc/nginx/sites-available/fileee /etc/nginx/sites-enabled/fileee
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-fileee trusts the rightmost `X-Forwarded-For` entry. Behind a chain of proxies (a CDN in front of Caddy, say), that's the outer proxy's address, so all clients would share one rate limit. Have the last proxy overwrite the header with the real client IP.
+Fileee trusts the rightmost `X-Forwarded-For` entry. Behind a chain of proxies (a CDN in front of Caddy, say), that's the outer proxy's address, so all clients would share one rate limit. Have the last proxy overwrite the header with the real client IP.
 
 Apply changes with `docker compose up -d`, then complete the setup page with the token.
 
@@ -95,7 +97,7 @@ docker compose start fileee
 
 After losing the key, public copies still waiting to be deleted from a storage that was already removed can't be reached. Their removal shows as failing, and you'd delete those by hand.
 
-After losing the database, files fileee uploaded appear in a **Recovered** folder under their own names. Public copies stay online with nothing tracking them, so delete them from the public location yourself.
+After losing the database, files Fileee uploaded appear in a **Recovered** folder under their own names. Public copies stay online with nothing tracking them, so delete them from the public location yourself.
 
 ## Recover access
 
@@ -113,6 +115,6 @@ Update `APP_URL`, then run `docker compose up -d`. CORS rules name the old origi
 
 Files are private unless you publish them. In **Settings > Storages > Public access**, give a storage a CDN URL and a public location. Publishing copies a file there.
 
-The CDN must reach only that location. Saving the setting, and each sync after it, tests that a private object doesn't load through the CDN, and the setting is refused if one does. Providers that expose a whole bucket through a custom domain or public setting need a separate public bucket. The settings page has a note for each provider, and the [conformance script](developing.md#test-a-storage-provider) can check one.
+The CDN must reach only that location. Saving the setting, and each sync after it, tests that a private object doesn't load through the CDN, and the setting is refused if one does. Providers that expose a whole bucket through a custom domain or public setting need a separate public bucket. The settings page has a note for each provider, and the [conformance script](/developing/#test-a-storage-provider) can check one.
 
 Set a short cache lifetime on the CDN, such as one hour. A removed file stays reachable until its cached copies expire.

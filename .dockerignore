@@ -4,7 +4,7 @@
 **/.tanstack
 **/dist
 .git
-docs
+apps/docs
 nginx
 .env*
 *.db

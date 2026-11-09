@@ -5,6 +5,7 @@ pnpm + Turborepo monorepo. Node >= 24.
 ## Layout
 
 - `apps/web`: TanStack Start (React) app. Serves the oRPC API at `/api/rpc`.
+- `apps/docs`: Astro Starlight docs site. Pages are Markdown in `src/content/docs/`; add new ones to `sidebar` in `astro.config.ts`.
 - `packages/api`: oRPC router (`@fileee/api`). Validates all input. Server-only, except `@fileee/api/schemas`.
 - `packages/storage`: S3 client, presigning, connection tests and credential encryption (`@fileee/storage`). Server-only.
 - `packages/ui`: shadcn/ui components and Tailwind theme (`@fileee/ui`). Browser-safe; no app logic.
@@ -55,7 +56,7 @@ Public copies (`public_file`, `lib/public.ts`) stay public until their object is
 Run from the repo root:
 
 ```bash
-pnpm dev            # http://localhost:3000
+pnpm dev            # http://localhost:3000, docs on http://localhost:4321
 pnpm build
 pnpm typecheck
 pnpm test

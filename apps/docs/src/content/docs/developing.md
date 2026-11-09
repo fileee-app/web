@@ -1,6 +1,8 @@
-# Developing
+---
+title: Developing
+---
 
-Code conventions and architecture rules are in [AGENTS.md](../AGENTS.md). This page gets you running.
+Code conventions and architecture rules are in [AGENTS.md](https://github.com/fileee-app/web/blob/main/AGENTS.md). This page gets you running.
 
 ## Set up
 

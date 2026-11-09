@@ -1,6 +1,8 @@
-# Security
+---
+title: Security
+---
 
-How fileee protects your data, and what it leaves to you. For setup steps, see [Deploying](deploying.md).
+How Fileee protects your data, and what it leaves to you. For setup steps, see [Deploying](/deploying/).
 
 ## Bucket credentials
 
@@ -42,7 +44,7 @@ Someone holding a password-protected link can lock it for 15 minutes by guessing
 
 ## Untrusted files
 
-A file could be HTML or script made to run on your domain, so fileee never serves user files from its own origin.
+A file could be HTML or script made to run on your domain, so Fileee never serves user files from its own origin.
 
 - Files load from the bucket's origin or the CDN's, and the CDN must be on a different host from the app.
 - The content type comes from the file's name, never the browser's claim. Text previews are served as plain text.
@@ -64,7 +66,7 @@ Publishing is opt-in per file. Before a storage can publish, a real test checks 
 
 Disabling a user removes their public copies for good. Enabling them again brings their share links back, but they have to publish again.
 
-## What fileee doesn't do
+## What Fileee doesn't do
 
 Know these before relying on it:
 
