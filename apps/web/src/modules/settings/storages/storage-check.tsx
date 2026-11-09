@@ -148,7 +148,7 @@ export function StorageCheck({ storageId }: { storageId: string }) {
             {[
               {
                 label: "IAM policy",
-                text: "Limit the access key to this bucket. Some providers, such as Tigris, need this IAM policy attached to the key. The CORS actions are only needed for Apply for me, and a separate public bucket needs the same access.",
+                text: "Optional if your provider can limit the access key to this bucket another way, such as a bucket role. Otherwise, attach this policy to the key. The CORS actions are only needed for Apply for me, and a separate public bucket needs the same access.",
                 value: JSON.stringify(guide.data.policy, null, 2),
               },
               {
