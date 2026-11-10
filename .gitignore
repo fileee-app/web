@@ -4,6 +4,7 @@ dist
 .turbo
 .tanstack
 .astro
+.wrangler
 .env
 *.db
 *.db-*
