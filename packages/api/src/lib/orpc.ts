@@ -11,6 +11,8 @@ import { isInvalidText } from "./db-errors.ts";
 export interface Context
   extends RequestHeadersHandlerPluginContext, ResponseHeadersHandlerPluginContext {
   clientIp?: string;
+  /** Set by the app API (`/api/app`): sign-in returns a bearer token instead of setting a cookie. */
+  tokenAuth?: boolean;
 }
 
 /** Only `setup.*` uses this directly. */

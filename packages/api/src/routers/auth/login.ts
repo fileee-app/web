@@ -31,7 +31,8 @@ export const login = pub.input(loginInput).handler(async ({ input, context }) =>
   }
 
   await clearRateLimit(pairKey);
-  await startSession(user.id, context.resHeaders);
+  const token = await startSession(user.id, context.tokenAuth ? undefined : context.resHeaders);
 
-  return publicUser(user);
+  // Only the app API gets the token; in a browser it stays in the HttpOnly cookie.
+  return { ...publicUser(user), ...(context.tokenAuth && { token }) };
 });

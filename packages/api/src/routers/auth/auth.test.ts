@@ -1,8 +1,10 @@
 import { db, loginAttempts, publicFiles, sessions, users } from "@fileee/db";
+import { createRouterClient } from "@orpc/server";
 import { eq } from "drizzle-orm";
 import { beforeAll, expect, test } from "vitest";
 import { hashPassword, needsRehash, verifyPassword } from "../../auth/password.ts";
 import { ADMIN, setupTestApp } from "../../test-utils.ts";
+import { router } from "../_router.ts";
 
 const { browser } = await setupTestApp();
 const admin = browser();
@@ -245,4 +247,28 @@ test("emails are unique, case-insensitively", async () => {
       role: "user",
     }),
   ).rejects.toMatchObject({ code: "CONFLICT" });
+});
+
+test("the app API signs in with a bearer token and never sets a cookie", async () => {
+  const { email, password } = await makeUser("app@example.com");
+  const resHeaders = new Headers();
+  const app = (token = "") =>
+    createRouterClient(router, {
+      context: {
+        tokenAuth: true,
+        reqHeaders: new Headers(token ? { authorization: `Bearer ${token}` } : {}),
+        resHeaders,
+      },
+    });
+
+  const { token } = await app().auth.login({ email, password });
+
+  expect(token).toEqual(expect.any(String));
+  expect(resHeaders.get("set-cookie")).toBeNull();
+  expect(await app(token).auth.me()).toMatchObject({ email });
+  expect("token" in (await browser().auth.login({ email, password }))).toBe(false);
+
+  await app(token).auth.logout();
+
+  expect(await app(token).auth.me()).toBeNull();
 });

@@ -26,6 +26,7 @@ export const complete = base.input(setupInput).handler(async ({ input, context }
   }
 
   const passwordHash = await hashPassword(input.password);
+  let token = "";
 
   try {
     // One transaction: the settings row's fixed primary key means exactly one request can win.
@@ -41,7 +42,7 @@ export const complete = base.input(setupInput).handler(async ({ input, context }
         .values({ email: input.email, name: input.name, passwordHash, role: "admin" })
         .returning();
 
-      await startSession(admin!.id, context.resHeaders, tx);
+      token = await startSession(admin!.id, context.tokenAuth ? undefined : context.resHeaders, tx);
     });
   } catch (error) {
     if (isUniqueViolation(error)) throw alreadyDone();
@@ -49,5 +50,6 @@ export const complete = base.input(setupInput).handler(async ({ input, context }
     throw error;
   }
 
-  return { ok: true };
+  // Only the app API gets the token, as at login.
+  return { ok: true, ...(context.tokenAuth && { token }) };
 });

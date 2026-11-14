@@ -15,7 +15,7 @@ const cookieOptions = () =>
 
 export const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
 
-/** A new token at every login. Only its hash is stored, so a leaked database can't be used to sign in. */
+/** A new token at every login. Only its hash is stored, so a leaked database can't be used to sign in. Returns the token for apps that send it as a bearer token. */
 export async function startSession(
   userId: string,
   resHeaders: Headers | undefined,
@@ -33,10 +33,17 @@ export async function startSession(
 
   // Lasts to the absolute limit; the database decides when it really expires, so SSR needn't reissue it.
   setCookie(resHeaders, cookieName(), token, { ...cookieOptions(), maxAge: ABSOLUTE / 1000 });
+
+  return token;
 }
 
+/** The app API sends `Authorization: Bearer <token>`; the browser sends the cookie. */
+const requestToken = (reqHeaders: Headers | undefined) =>
+  reqHeaders?.get("authorization")?.match(/^Bearer (\S+)$/i)?.[1] ??
+  getCookie(reqHeaders, cookieName());
+
 export async function loadSession(reqHeaders: Headers | undefined) {
-  const token = getCookie(reqHeaders, cookieName());
+  const token = requestToken(reqHeaders);
 
   if (!token) return null;
 

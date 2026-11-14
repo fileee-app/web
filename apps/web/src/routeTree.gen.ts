@@ -21,6 +21,7 @@ import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/ind
 import { Route as AppSettingsAccountRouteImport } from './routes/_app/settings/account'
 import { Route as AppSettingsGeneralRouteImport } from './routes/_app/settings/general'
 import { Route as AppSettingsUsersRouteImport } from './routes/_app/settings/users'
+import { Route as ApiAppSplatRouteImport } from './routes/api/app.$'
 import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
 import { Route as AppSStorageIdSplatRouteImport } from './routes/_app/s.$storageId.$'
 import { Route as AppSStorageIdMissingRouteImport } from './routes/_app/s.$storageId.missing'
@@ -86,6 +87,11 @@ const AppSettingsUsersRoute = AppSettingsUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AppSettingsRouteRoute,
 } as any)
+const ApiAppSplatRoute = ApiAppSplatRouteImport.update({
+  id: '/api/app/$',
+  path: '/api/app/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
   path: '/api/rpc/$',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/settings/account': typeof AppSettingsAccountRoute
   '/settings/general': typeof AppSettingsGeneralRoute
   '/settings/users': typeof AppSettingsUsersRoute
+  '/api/app/$': typeof ApiAppSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/settings/': typeof AppSettingsIndexRoute
   '/s/$storageId/$': typeof AppSStorageIdSplatRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/settings/account': typeof AppSettingsAccountRoute
   '/settings/general': typeof AppSettingsGeneralRoute
   '/settings/users': typeof AppSettingsUsersRoute
+  '/api/app/$': typeof ApiAppSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/settings': typeof AppSettingsIndexRoute
   '/s/$storageId/$': typeof AppSStorageIdSplatRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/_app/settings/account': typeof AppSettingsAccountRoute
   '/_app/settings/general': typeof AppSettingsGeneralRoute
   '/_app/settings/users': typeof AppSettingsUsersRoute
+  '/api/app/$': typeof ApiAppSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
   '/_app/s/$storageId/$': typeof AppSStorageIdSplatRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/settings/general'
     | '/settings/users'
+    | '/api/app/$'
     | '/api/rpc/$'
     | '/settings/'
     | '/s/$storageId/$'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/settings/general'
     | '/settings/users'
+    | '/api/app/$'
     | '/api/rpc/$'
     | '/settings'
     | '/s/$storageId/$'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/_app/settings/account'
     | '/_app/settings/general'
     | '/_app/settings/users'
+    | '/api/app/$'
     | '/api/rpc/$'
     | '/_app/settings/'
     | '/_app/s/$storageId/$'
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
   ShareTokenRoute: typeof ShareTokenRoute
+  ApiAppSplatRoute: typeof ApiAppSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsUsersRouteImport
       parentRoute: typeof AppSettingsRouteRoute
     }
+    '/api/app/$': {
+      id: '/api/app/$'
+      path: '/api/app/$'
+      fullPath: '/api/app/$'
+      preLoaderRoute: typeof ApiAppSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/rpc/$': {
       id: '/api/rpc/$'
       path: '/api/rpc/$'
@@ -403,6 +423,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
   ShareTokenRoute: ShareTokenRoute,
+  ApiAppSplatRoute: ApiAppSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport
