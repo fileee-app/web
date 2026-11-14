@@ -28,7 +28,7 @@ export default defineConfig({
           ],
         },
         { label: "Run", items: ["deploying", "administering", "security", "troubleshooting"] },
-        { label: "Reference", items: ["how-it-works", "developing", "changelog"] },
+        { label: "Reference", items: ["how-it-works", "app-api", "developing", "changelog"] },
       ],
     }),
   ],

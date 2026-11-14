@@ -20,7 +20,7 @@ There's no key rotation. If `ENCRYPTION_KEY` changes, credentials saved under th
 - A session is 32 random bytes in an `HttpOnly`, `SameSite=Lax` cookie, which is also `Secure` with a `__Host-` prefix when `APP_URL` is HTTPS. The database stores only its hash, so a leaked backup can't be used to sign in.
 - Sessions expire after 30 idle days, and after 90 days regardless.
 - A failed login gives the same answer and takes the same time whether or not the email exists.
-- Every API call must carry an `Origin` matching `APP_URL`.
+- Every browser API call (`/api/rpc`) must carry an `Origin` matching `APP_URL`. The [app API](/app-api/) (`/api/app`) ignores cookies and takes only a bearer token, so it needs no `Origin`.
 
 | Limit (per 15 minutes) | Attempts | Counted per         |
 | ---------------------- | -------- | ------------------- |
