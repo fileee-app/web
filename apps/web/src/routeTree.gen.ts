@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as ThumbnailerRouteImport } from './routes/thumbnailer'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppSearchRouteImport } from './routes/_app/search'
 import { Route as AppSettingsRouteRouteImport } from './routes/_app/settings/route'
@@ -40,6 +41,11 @@ const LoginRoute = LoginRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThumbnailerRoute = ThumbnailerRouteImport.update({
+  id: '/thumbnailer',
+  path: '/thumbnailer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/thumbnailer': typeof ThumbnailerRoute
   '/settings': typeof AppSettingsRouteRouteWithChildren
   '/search': typeof AppSearchRoute
   '/trash': typeof AppTrashRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/thumbnailer': typeof ThumbnailerRoute
   '/search': typeof AppSearchRoute
   '/trash': typeof AppTrashRoute
   '/share/$token': typeof ShareTokenRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/thumbnailer': typeof ThumbnailerRoute
   '/_app/settings': typeof AppSettingsRouteRouteWithChildren
   '/_app/search': typeof AppSearchRoute
   '/_app/trash': typeof AppTrashRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/setup'
+    | '/thumbnailer'
     | '/settings'
     | '/search'
     | '/trash'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/setup'
+    | '/thumbnailer'
     | '/search'
     | '/trash'
     | '/share/$token'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/login'
     | '/setup'
+    | '/thumbnailer'
     | '/_app/settings'
     | '/_app/search'
     | '/_app/trash'
@@ -241,6 +253,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
+  ThumbnailerRoute: typeof ThumbnailerRoute
   ShareTokenRoute: typeof ShareTokenRoute
   ApiAppSplatRoute: typeof ApiAppSplatRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thumbnailer': {
+      id: '/thumbnailer'
+      path: '/thumbnailer'
+      fullPath: '/thumbnailer'
+      preLoaderRoute: typeof ThumbnailerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/': {
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
+  ThumbnailerRoute: ThumbnailerRoute,
   ShareTokenRoute: ShareTokenRoute,
   ApiAppSplatRoute: ApiAppSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,

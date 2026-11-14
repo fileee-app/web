@@ -188,6 +188,33 @@ function withTimeout<T>(work: Promise<T>) {
   ]).finally(() => clearTimeout(timer));
 }
 
+type Kind = Awaited<ReturnType<typeof client.file.signThumbnail>>["kind"];
+
+/** Decodes a file from a presigned URL, as `processFile` does for one in the bucket. */
+function extractUrl(kind: Kind, url: string, size: number): Promise<Extracted> {
+  if (kind === "none") return Promise.resolve({ metadata: {} });
+  if ((kind === "image" || kind === "pdf") && size > MAX_DECODE)
+    return Promise.resolve({ metadata: {} });
+  if (kind === "image") return readImage(url);
+  if (kind === "video" || kind === "audio") return readMedia(url, kind);
+  if (kind === "pdf") return readPdf(url);
+
+  return readText(url, size);
+}
+
+/**
+ * The thumbnailer page's work for the desktop and mobile apps: what this browser decodes that they
+ * can't (PDFs, video, audio), as metadata and a JPEG data URL. They store it themselves.
+ */
+export async function extractForApp(kind: Kind, url: string, size: number) {
+  const result = await withTimeout(extractUrl(kind, url, size));
+
+  return {
+    metadata: result.metadata,
+    thumbnail: result.canvas?.toDataURL("image/jpeg", 0.8) ?? null,
+  };
+}
+
 /**
  * Extracts metadata and a thumbnail in this browser and stores them; the server never sees the bytes.
  * Rejects if extraction failed, leaving the file for backfill to try again.
@@ -199,14 +226,12 @@ export async function processFile(fileId: string, local?: File) {
   const extract = async (): Promise<Extracted> => {
     if (kind === "none") return { metadata: {} };
     if ((kind === "image" || kind === "pdf") && size > MAX_DECODE) return { metadata: {} };
+    if (!local) return extractUrl(kind, (await client.file.previewUrl({ fileId })).url!, size);
+    if (kind === "image") return readImage(local);
+    if (kind === "video" || kind === "audio") return readMedia(local, kind);
+    if (kind === "pdf") return readPdf(local);
 
-    const source = local ?? (await client.file.previewUrl({ fileId })).url!;
-
-    if (kind === "image") return readImage(source);
-    if (kind === "video" || kind === "audio") return readMedia(source, kind);
-    if (kind === "pdf") return readPdf(source);
-
-    return readText(source, size);
+    return readText(local, size);
   };
 
   let result: Extracted | undefined;
